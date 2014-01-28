@@ -10,11 +10,12 @@ import lib.dbclient as dc
 from lib.dbclient import DbClient
 import logging
 
+
 class YelpParser(ParserBase):
     SITE_URL = "http://www.yelp.com/search?find_desc={keyword}&find_loc={zipcode}"
     REDIRECT_PATTERN = re.compile(r"biz_redir\?url=(?P<site_url>.*?)&")
 
-    def __init__(self, keyword, start_zip= None, proxy_client=None):
+    def __init__(self, keyword, start_zip=None, proxy_client=None):
         super(self.__class__, self).__init__(proxy_client)
 
         if keyword is None:
@@ -32,7 +33,7 @@ class YelpParser(ParserBase):
                 del self.zipcode_list[0]
 
             zipcode_tuple = self.zipcode_list[0]
-            pos = zipcode_tuple.index(start_zip)
+            pos = zipcode_tuple[0].index(start_zip)
             zipcode_tuple[0] = zipcode_tuple[0][pos:]
 
     def get_key_fields(self):
