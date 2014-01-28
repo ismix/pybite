@@ -17,6 +17,7 @@ A regular expression to extract domain part of email.
 """
 EMAIL_DOMAIN_REGEX = re.compile(r'@(?P<domain>\w+?)\.')
 
+
 def find_emails_by_url(url):
     """
     The main function to be called. It first parses the site to find emails. If that is unsuccessful, it will try to
@@ -35,10 +36,10 @@ def find_emails_by_url(url):
 
     emails = find_emails_in_page(url)
     if len(emails) == 0:
-        emails = find_emails_by_dns(url)
+        raw_emails = find_emails_by_dns(url)
+        emails = filter_emails_by_domain(raw_emails, url)
 
-    filtered_emails = filter_emails_by_domain(emails, url)
-    return filtered_emails
+    return emails
 
 
 def find_emails_in_page(url):
