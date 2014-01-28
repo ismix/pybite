@@ -24,7 +24,7 @@ class Collector:
             self._save_data(data)
             self._do_interbatch()
 
-        if not (self.proxy_client is None):
+        if self.proxy_client is not None:
             self.proxy_client.stop()
 
     def _do_interbatch(self):

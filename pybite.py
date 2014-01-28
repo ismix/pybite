@@ -12,12 +12,12 @@ def collect(args):
     try:
         collector.start()
     finally:
-        if not (collector.proxy_client is None):
+        if collector.proxy_client is not None:
             collector.proxy_client.stop()
 
 
 def summarize(args):
-    Summarizer().run()
+    Summarizer().run(args.filter)
 
 if __name__ == '__main__':
     arg_parser = argparse.ArgumentParser()
@@ -31,6 +31,10 @@ if __name__ == '__main__':
 
     sp_summarize = sp.add_parser('summarize', help='Summarize records collected so far')
     sp_summarize.set_defaults(func_name='summarize')
+    sp_summarize.add_argument('-f', '--filter',
+                              help='Show filtered count as well. '
+                                   'Filter string is field=value pairs seperated with commas.',
+                              default = None)
 
     args = arg_parser.parse_args()
     eval(args.func_name)(args)

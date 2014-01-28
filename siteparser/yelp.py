@@ -27,7 +27,7 @@ class YelpParser(ParserBase):
         self.current_zipcode = None
         self.db = DbClient()
 
-        if not (start_zip is None):
+        if start_zip is not None:
             while not (start_zip in self.zipcode_list[0][0]):
                 del self.zipcode_list[0]
 
@@ -54,7 +54,7 @@ class YelpParser(ParserBase):
                             [data, next_page] = self._parse_page(next_page)
                             break
                         except BlockedError:
-                            if not (self.proxy_client is None):
+                            if self.proxy_client is not None:
                                 self.proxy_client.change_identity()
                             else:
                                 raise BlockedError('Probably blocked, got a not parsable page:<' +
@@ -77,7 +77,7 @@ class YelpParser(ParserBase):
             return None
 
     def _extract_info(self, url):
-        if not (self.db.check_unique_key('yelp_url', url) is None):
+        if self.db.check_unique_key('yelp_url', url) is not None:
             logging.debug("Url parsed before, skipping: "+url)
             return None
 
@@ -139,7 +139,7 @@ class YelpParser(ParserBase):
                     page_info = self._extract_info(sub_url)
                     break
                 except BlockedError:
-                    if not (self.proxy_client is None):
+                    if self.proxy_client is not None:
                         self.proxy_client.change_identity()
                     else:
                         raise BlockedError('Probably blocked, got a not parsable page:<' +
