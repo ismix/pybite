@@ -38,7 +38,6 @@ def find_emails_by_url(url):
         raw_emails = find_emails_by_dns(url)
         emails = filter_emails_by_domain(raw_emails, url)
 
-    emails = map(lambda x: x.lower(), emails)
     return emails
 
 
@@ -70,7 +69,7 @@ def find_emails_by_dns(url):
     try:
         wh = whois.whois(url)
         email = re.search(r'Registrant Email: (?P<email>.*)', wh.text).group(1)
-        return [email.strip()]
+        return [email.strip().lower()]
     except:
         return []
 

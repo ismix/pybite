@@ -28,6 +28,7 @@ class EmailCrawler:
             emails = self._crawl_page(current_url, current_depth)
 
             for email in emails:
+                email = email.lower()
                 self.emails.add(email)
 
         return list(self.emails)
