@@ -1,12 +1,13 @@
+"""
+We need major email domain list to filter emails that we get, so that we will not collect unrelated email addresses
+like domain proxies.
+"""
+
 from lib.emailcrawler import EmailCrawler
 import whois
 import re
 import urlparse
 
-"""
-We need major email domain list to filter emails that we get, so that we will not collect unrelated email addresses
-like domain proxies.
-"""
 MAJOR_DOMAIN_LIST = {'yahoo', 'gmail', 'hotmail', 'googlemail', 'gmx', 'mail', 'web', 'live', 'aol',
                      'yandex', 'me', 'msn', 'comcast', 'hushmail'}
 
