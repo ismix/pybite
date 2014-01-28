@@ -36,12 +36,3 @@ class TorClient(ProxyBase):
 
     def stop(self):
         self.tor_process.kill()
-
-if __name__ == "__main__":
-    t = TorClient()
-
-    for i in range(2):
-        print t.get_page('https://www.atagar.com/echo.php')
-        t.change_identity()
-
-    t.stop()

@@ -4,6 +4,7 @@ import config
 KEY_UNIQUE = 'unique'
 PREFIX_UNIQUE = 'unique_'
 
+
 class DbClient:
     def __init__(self, keys={}):
         self.db = mdb.MongoClient(config.DB_HOST, config.DB_PORT)[config.DB_NAME]
@@ -43,7 +44,3 @@ class DbClient:
 
     def check_unique_key(self, field_name, field_value):
         return self.db[config.DB_PREFIX+PREFIX_UNIQUE+field_name].find_one({"_id": field_value})
-
-if __name__ == '__main__':
-    d = DbClient(keys={KEY_UNIQUE: ['asd']})
-    d.add_data({'asd': ['amk', 'aq']})

@@ -8,7 +8,7 @@ import urllib2
 import config
 import lib.dbclient as dc
 from lib.dbclient import DbClient
-
+import logging
 
 class YelpParser(ParserBase):
     SITE_URL = "http://www.yelp.com/search?find_desc={keyword}&find_loc={zipcode}"
@@ -43,12 +43,12 @@ class YelpParser(ParserBase):
             self.current_state = state
             self.current_city = city
             for zipcode in zipcode_list:
-                print "Processing zipcode<"+str(zipcode)+">, keyword<"+self.keyword+">"
+                logging.debug("Processing zipcode<"+str(zipcode)+">, keyword<"+self.keyword+">")
                 self.current_zipcode = zipcode
 
                 next_page = self._get_url(zipcode)
                 while next_page:
-                    print "Started page: "+next_page
+                    logging.debug("Started page: "+next_page)
                     for i in range(config.MAXIMUM_RETRY):
                         try:
                             [data, next_page] = self._parse_page(next_page)
@@ -78,10 +78,10 @@ class YelpParser(ParserBase):
 
     def _extract_info(self, url):
         if not (self.db.check_unique_key('yelp_url', url) is None):
-            print "Url parsed before, skipping: "+url
+            logging.debug("Url parsed before, skipping: "+url)
             return None
 
-        print "Extracting info: "+url
+        logging.debug("Extracting info: "+url)
         html = self._get_page(url)
         soup = Bs(html)
         name = soup.find('h1')
@@ -99,9 +99,9 @@ class YelpParser(ParserBase):
             raise BlockedError('Probably blocked, got a not parsable page:<' +
                                str(self.current_zipcode) + '> '+url)
 
-        print "Crawling site for emails: "+url
+        logging.debug("Crawling site for emails: "+url)
         emails = et.find_emails_by_url(site) if site else []
-        print "Crawled."
+        logging.debug("Crawled.")
         return {
             'name': name,
             'job': self.keyword,
@@ -115,7 +115,7 @@ class YelpParser(ParserBase):
         }
 
     def _parse_page(self, url):
-        print "Started parsing: "+url
+        logging.debug("Started parsing: "+url)
         data = []
         html = self._get_page(url)
         soup = Bs(html)

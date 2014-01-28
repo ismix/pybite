@@ -100,6 +100,3 @@ def filter_emails_by_domain(emails, url=''):
             filtered_emails.append(email)
 
     return filtered_emails
-
-if __name__ == "__main__":
-    print find_emails_by_url('davisplumb.com')

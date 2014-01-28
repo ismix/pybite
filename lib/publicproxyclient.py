@@ -26,10 +26,3 @@ class PublicProxyClient(ProxyBase):
 
         new_proxy = self.proxies[self.proxy_index]
         self._set_proxy(new_proxy)
-
-if __name__ == "__main__":
-    c = PublicProxyClient()
-
-    for i in range(10):
-        print c.get_page('https://www.atagar.com/echo.php')
-        c.change_identity()

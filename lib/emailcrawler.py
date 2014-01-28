@@ -93,8 +93,4 @@ class EmailCrawler:
             return urlparse.urljoin(self.url, path)
 
 
-if __name__ == "__main__":
-    e = EmailCrawler('http://www.datascoreinc.com/')
-    print e.run()
-
 
