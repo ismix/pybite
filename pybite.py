@@ -6,7 +6,7 @@ import logging
 
 def collect(args):
     if args.verbose:
-        logging.basicConfig(level=logging.DEBUG)
+        logging.basicConfig(filename='debug.log', filemode='w', level=logging.DEBUG)
 
     collector = Collector(args.parser, args.keyword, args.use_proxy)
     try:
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     sp_summarize.set_defaults(func_name='summarize')
     sp_summarize.add_argument('-f', '--filter',
                               help='Show filtered count as well. '
-                                   'Filter string is field=value pairs seperated with commas.',
+                                   'Filter string is field=value pairs separated with commas.',
                               default = None)
 
     args = arg_parser.parse_args()
