@@ -62,7 +62,7 @@ class ParserBase(object):
         """
         Simple get page method with urllib2.
         """
-        content = urllib2.urlopen(url).read()
+        content = urllib2.urlopen(url, timeout=config.URLLIB_TIMEOUT).read()
         return content
 
 

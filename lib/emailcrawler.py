@@ -35,7 +35,7 @@ class EmailCrawler:
 
     def _crawl_page(self, url, depth=1, recursive=True):
         try:
-            response = urllib2.urlopen(url)
+            response = urllib2.urlopen(url, timeout=config.URLLIB_TIMEOUT)
             if not ('text/html' in response.info().getheader('Content-Type')):
                 return []
             data = response.read()
@@ -76,7 +76,7 @@ class EmailCrawler:
         sitemap_url = self._get_sitemap_url()
         links = []
         try:
-            response = urllib2.urlopen(sitemap_url).read()
+            response = urllib2.urlopen(sitemap_url, timeout=config.URLLIB_TIMEOUT).read()
             soup = BeautifulSoup(response)
             links = map(lambda x: x.string, soup.find_all('loc'))
         finally:
@@ -87,7 +87,7 @@ class EmailCrawler:
         path = 'sitemap.xml'
 
         try:
-            response = urllib2.urlopen(robots_url).read()
+            response = urllib2.urlopen(robots_url, timeout=config.URLLIB_TIMEOUT).read()
             m = re.search(self.ROBOTS_SITEMAP, response)
             path = m.groups()[0]
         finally:
