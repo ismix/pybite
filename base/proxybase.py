@@ -23,7 +23,7 @@ class ProxyBase(object):
     def get_page(self, url):
         output = StringIO.StringIO()
         c = pycurl.Curl()
-        c.setopt(pycurl.URL, url)
+        c.setopt(pycurl.URL, str(url))
         c.setopt(pycurl.PROXY, self.proxy_addr)
         c.setopt(pycurl.PROXYPORT, self.proxy_port)
         c.setopt(pycurl.PROXYTYPE, self.proxy_type)
