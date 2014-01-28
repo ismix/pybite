@@ -28,11 +28,9 @@ class DbClient:
                             self.add_unique_key(field, item)
 
                         if len(data[field]) == 0:
-                            print "Nope"
                             return
                 else:
                     if not (self.check_unique_key(field, value) is None):
-                        print "Nope"
                         return
                     else:
                         self.add_unique_key(field, value)
