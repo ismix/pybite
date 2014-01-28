@@ -38,6 +38,7 @@ def find_emails_by_url(url):
         raw_emails = find_emails_by_dns(url)
         emails = filter_emails_by_domain(raw_emails, url)
 
+    emails = map(lambda x: x.lower(), emails)
     return emails
 
 
