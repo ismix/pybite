@@ -15,6 +15,7 @@ class EmailCrawler:
         self.urls_added = set()
         self.max_depth = config.EMAIL_EXTRACTOR_DEPTH
         self.emails = set()
+        self.urls_crawled = 0
 
     def run(self):
         self._crawl_sitemap()
@@ -22,7 +23,7 @@ class EmailCrawler:
         if len(self.urls_to_crawl) == 0:
             self.urls_to_crawl.append((self.url, 1))
 
-        while len(self.urls_to_crawl):
+        while (self.urls_crawled <= config.EMAIL_EXTRACTOR_MAX_URLS) and len(self.urls_to_crawl):
             current_url, current_depth = self.urls_to_crawl[0]
             self.urls_to_crawl = self.urls_to_crawl[1:]
             emails = self._crawl_page(current_url, current_depth)
@@ -60,6 +61,7 @@ class EmailCrawler:
                     self.urls_added.add(href)
 
         emails = re.findall(self.MAIL_REGEX, data)
+        self.urls_crawled += 1
         return emails
 
     def _crawl_sitemap(self):

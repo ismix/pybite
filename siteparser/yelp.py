@@ -96,6 +96,8 @@ class YelpParser(ParserBase):
             phone = phone.string.strip() if phone else None
             site = soup.find(id='bizUrl')
             site = self._get_site_url_from_redirect(site.a['href']) if site else None
+            category = soup.find(id='cat_display')
+            category = map(lambda a: a.string.strip().lower(), category.find_all('a')) if category else None
         except:
             raise BlockedError('Probably blocked, got a not parsable page:<' +
                                str(self.current_zipcode) + '> '+url)
@@ -105,7 +107,7 @@ class YelpParser(ParserBase):
         logging.debug("Crawled.")
         return {
             'name': name,
-            'job': self.keyword,
+            'category': category,
             'phone': phone,
             'url': site,
             'emails': emails,
