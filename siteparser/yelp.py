@@ -124,10 +124,9 @@ class YelpParser(ParserBase):
         soup = Bs(html)
         prev_next = soup.find_all(class_="prev-next")
         result_list = soup.find_all(class_='indexed-biz-name')
-        del soup
 
         if len(prev_next) == 0:
-            if len(result_list) != 0:
+            if len(result_list) != 0 or soup.find(class_="no-results"):
                 next_link = None
             else:
                 raise BlockedError("We are blocked by Yelp")
@@ -135,6 +134,7 @@ class YelpParser(ParserBase):
             next_link = prev_next[-1]
             next_link = urljoin(self.SITE_URL, next_link["href"]) if 8594 in map(ord,  next_link.string) else None
 
+        del soup
         for result in result_list:
             sub_url = urljoin(url, result.a['href'])
             for i in range(config.MAXIMUM_RETRY):

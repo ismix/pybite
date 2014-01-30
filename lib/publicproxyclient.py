@@ -22,7 +22,7 @@ class PublicProxyClient(ProxyBase):
         self.proxy_port = proxy[1]
 
     def change_identity(self):
-        self.proxy_index = (self.proxy_index+1)%self.num_proxies
+        self.proxy_index = (self.proxy_index+1) % self.num_proxies
 
         new_proxy = self.proxies[self.proxy_index]
         self._set_proxy(new_proxy)
