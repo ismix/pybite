@@ -10,12 +10,15 @@ class PublicProxyClient(ProxyBase):
     def __init__(self):
         super(self.__class__, self).__init__(config.PUBLIC_PROXY_TIMEOUT)
 
-        self.proxies = get_public_proxy_list()
         self.proxy_index = 0
-        self.num_proxies = len(self.proxies)
 
+        self._load_proxies()
         first_proxy = self.proxies[self.proxy_index]
         self._set_proxy(first_proxy)
+
+    def _load_proxies(self):
+        self.proxies = get_public_proxy_list()
+        self.num_proxies = len(self.proxies)
 
     def _set_proxy(self, proxy):
         self.proxy_addr = proxy[0]
@@ -23,6 +26,9 @@ class PublicProxyClient(ProxyBase):
 
     def change_identity(self):
         self.proxy_index = (self.proxy_index+1) % self.num_proxies
+
+        if self.proxy_index == 0:
+            self._load_proxies()
 
         new_proxy = self.proxies[self.proxy_index]
         self._set_proxy(new_proxy)
