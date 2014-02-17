@@ -86,17 +86,24 @@ class YelpParser(ParserBase):
         html = self._get_page(url)
         soup = Bs(html)
         name = soup.find('h1')
+        old_version = soup.find(id='bizInfoHeader')
 
         try:
             if not (name['itemprop'] == 'name'):
                 raise BlockedError
-
             name = name.string.strip() if name else None
-            phone = soup.find(id='bizPhone')
+
+            if old_version:
+                phone = soup.find(id='bizPhone')
+                site = soup.find(id='bizUrl')
+                category = soup.find(id='cat_display')
+            else:
+                phone = soup.find(class_='biz-phone')
+                site = soup.find(class_='biz-website')
+                category = soup.find(class_='category-str-list')
+
             phone = phone.string.strip() if phone else None
-            site = soup.find(id='bizUrl')
             site = self._get_site_url_from_redirect(site.a['href']) if site else None
-            category = soup.find(id='cat_display')
             category = map(lambda a: a.string.strip().lower(), category.find_all('a')) if category else None
         except:
             raise BlockedError('Probably blocked, got a not parsable page:<' +
