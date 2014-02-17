@@ -6,7 +6,7 @@ import logging
 
 def collect(args):
     if args.verbose:
-        logging.basicConfig(filename='debug.log', filemode='w', level=logging.DEBUG)
+        logging.basicConfig(filename='debug_'+args.keyword+'.log', filemode='w', level=logging.DEBUG)
 
     collector = Collector(args.parser, args.keyword, args.use_proxy)
     try:
