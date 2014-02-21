@@ -5,7 +5,7 @@ from lib.dbclient import DbClient
 
 
 class Collector:
-    def __init__(self, parser_name, keyword, use_proxy=None, parser_params=None):
+    def __init__(self, parser_name, use_proxy=None, parser_params=None):
         if use_proxy == 'tor':
             self.proxy_client = TorClient()
         elif use_proxy == 'public':
@@ -15,7 +15,7 @@ class Collector:
 
         parser_name = parser_name.title()+'Parser'
 
-        self.parser = getattr(siteparser, parser_name)(keyword, parser_params, proxy_client=self.proxy_client)
+        self.parser = getattr(siteparser, parser_name)(parser_params, proxy_client=self.proxy_client)
         key_fields = self.parser.get_key_fields()
         self.db = DbClient(key_fields)
 

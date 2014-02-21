@@ -10,7 +10,7 @@ def collect(args):
         logging.basicConfig(filename='dbg_'+args.parser+'_'+str(time.time())+'.log', filemode='w', level=logging.DEBUG)
 
     parser_params = process_param_string(args.parser_params)
-    collector = Collector(args.parser, args.keyword, args.use_proxy, parser_params)
+    collector = Collector(args.parser, args.use_proxy, parser_params)
     try:
         collector.start()
     finally:
@@ -47,7 +47,6 @@ if __name__ == '__main__':
     sp_collect.add_argument('-pp', '--parser-params',
                             help='Parser specific parameters. This string is field=value pairs separated with commas.',
                             default=None)
-    sp_collect.add_argument('-k', '--keyword', help='Keyword to make a search on the site', default=None)
     sp_collect.add_argument('-up', '--use-proxy', help='Use proxy', choices=['tor', 'public'])
     sp_collect.add_argument('-v', '--verbose', help='Verbose output', action='store_true')
 

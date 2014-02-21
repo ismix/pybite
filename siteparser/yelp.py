@@ -15,13 +15,13 @@ class YelpParser(ParserBase):
     SITE_URL = "http://www.yelp.com/search?find_desc={keyword}&find_loc={zipcode}"
     REDIRECT_PATTERN = re.compile(r"biz_redir\?url=(?P<site_url>.*?)&")
 
-    def __init__(self, keyword, params=None, proxy_client=None):
+    def __init__(self, params=None, proxy_client=None):
         super(self.__class__, self).__init__(proxy_client)
 
-        if keyword is None:
-            raise SystemExit('Keyword is required for this parser.')
+        if params is None or 'keyword' not in params:
+            raise SystemExit('keyword is required for this parser.')
 
-        self.keyword = keyword
+        self.keyword = params['keyword']
         self.zipcode_list = lt.get_us_zipcodes_by_state()
         self.current_state = None
         self.current_city = None
