@@ -15,7 +15,7 @@ class YelpParser(ParserBase):
     SITE_URL = "http://www.yelp.com/search?find_desc={keyword}&find_loc={zipcode}"
     REDIRECT_PATTERN = re.compile(r"biz_redir\?url=(?P<site_url>.*?)&")
 
-    def __init__(self, keyword, start_zip=None, proxy_client=None):
+    def __init__(self, keyword, params=None, proxy_client=None):
         super(self.__class__, self).__init__(proxy_client)
 
         if keyword is None:
@@ -28,7 +28,8 @@ class YelpParser(ParserBase):
         self.current_zipcode = None
         self.db = DbClient()
 
-        if start_zip is not None:
+        if params is not None and 'start_zip' in params:
+            start_zip = params['start_zip']
             while not (start_zip in self.zipcode_list[0][0]):
                 del self.zipcode_list[0]
 

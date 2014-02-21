@@ -28,6 +28,7 @@ class ProxyBase(object):
         c.setopt(pycurl.PROXYPORT, self.proxy_port)
         c.setopt(pycurl.PROXYTYPE, self.proxy_type)
         c.setopt(pycurl.WRITEFUNCTION, output.write)
+        c.setopt(pycurl.FOLLOWLOCATION, 1)
         c.setopt(pycurl.USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:8.0) Gecko/20100101 Firefox/8.0')
 
         if self.timeout is not None:
