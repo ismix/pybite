@@ -7,7 +7,6 @@ import re
 import urllib2
 import config
 import lib.dbclient as dc
-from lib.dbclient import DbClient
 import logging
 
 
@@ -26,7 +25,7 @@ class YelpParser(ParserBase):
         self.current_state = None
         self.current_city = None
         self.current_zipcode = None
-        self.db = DbClient()
+        self.db = dc.DbClient()
 
         if params is not None and 'start_zip' in params:
             start_zip = params['start_zip']

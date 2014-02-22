@@ -1,3 +1,4 @@
-__all__ = ['yelp']
+__all__ = ['yelp', 'yellowpages']
 
 from yelp import YelpParser
+from yellowpages import YellowpagesParser

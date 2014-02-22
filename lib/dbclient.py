@@ -17,19 +17,20 @@ class DbClient:
             self.add_data(datum)
 
     def add_data(self, data):
+        # TODO: I'm still not quite clear on what I should do on unique keys.
         if KEY_UNIQUE in self.keys:
             fields = self.keys[KEY_UNIQUE]
             for field in fields:
                 value = data[field]
+                if not bool(value):
+                    continue
+
                 if type(value) == list:
                     for item in value:
                         if self.check_unique_key(field, item) is not None:
                             data[field].remove(item)
                         else:
                             self.add_unique_key(field, item)
-
-                        if len(data[field]) == 0:
-                            return
                 else:
                     if self.check_unique_key(field, value) is not None:
                         return

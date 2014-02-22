@@ -43,7 +43,7 @@ if __name__ == '__main__':
     sp = arg_parser.add_subparsers()
     sp_collect = sp.add_parser('collect', help='Start parsing url for email lists')
     sp_collect.set_defaults(func_name='collect')
-    sp_collect.add_argument('-p', '--parser', help='Website parser to use', choices=['yelp'], default='yelp')
+    sp_collect.add_argument('parser', help='Website parser to use', choices=['yelp', 'yellowpages'])
     sp_collect.add_argument('-pp', '--parser-params',
                             help='Parser specific parameters. This string is field=value pairs separated with commas.',
                             default=None)
