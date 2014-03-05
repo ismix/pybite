@@ -1,6 +1,6 @@
 import config
 from bs4 import BeautifulSoup
-import urllib2
+from toolbox.url import url_open
 import urlparse
 import re
 
@@ -35,12 +35,9 @@ class EmailCrawler:
         return list(self.emails)
 
     def _crawl_page(self, url, depth=1, recursive=True):
-        try:
-            response = urllib2.urlopen(url, timeout=config.URLLIB_TIMEOUT)
-            if not ('text/html' in response.info().getheader('Content-Type')):
-                return []
-            data = response.read()
-        except:
+        data = url_open(url, True)
+
+        if data is None:
             return []
 
         if recursive and (depth < self.max_depth):
@@ -78,7 +75,7 @@ class EmailCrawler:
         sitemap_url = self._get_sitemap_url()
         links = []
         try:
-            response = urllib2.urlopen(sitemap_url, timeout=config.URLLIB_TIMEOUT).read()
+            response = url_open(sitemap_url)
             soup = BeautifulSoup(response)
             links = map(lambda x: x.string, soup.find_all('loc'))
         finally:
@@ -89,7 +86,7 @@ class EmailCrawler:
         path = 'sitemap.xml'
 
         try:
-            response = urllib2.urlopen(robots_url, timeout=config.URLLIB_TIMEOUT).read()
+            response = url_open(robots_url)
             m = re.search(self.ROBOTS_SITEMAP, response)
             path = m.groups()[0]
         finally:

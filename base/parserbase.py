@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
-import urllib2
 from base.proxybase import UnreachableError
+from toolbox.url import url_open
 import config
 
 
@@ -62,7 +62,7 @@ class ParserBase(object):
         """
         Simple get page method with urllib2.
         """
-        content = urllib2.urlopen(url, timeout=config.URLLIB_TIMEOUT).read()
+        content = url_open(url)
         return content
 
 
